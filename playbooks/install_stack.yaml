@@ -5,18 +5,24 @@
   gather_facts: false
   vars_files: vars/defaults.yaml
   roles:
-  - network_info
+  - role: network_info
+    tags:
+      - debug
 
   tasks:
 
   - name: Get minimum ansible facts
     setup:
       gather_subset: min
+    tags:
+      - debug
 
   - name: Create dev-install_net_config.yaml
     template:
       src: dev-install_net_config.yaml.j2
       dest: "{{ ansible_env.HOME }}/dev-install_net_config.yaml"
+    tags:
+     - filecreate
 
   - name: Read dev-install_net_config.yaml
     slurp:
@@ -31,6 +37,9 @@
     template:
       src: standalone_parameters.yaml.j2
       dest: "{{ ansible_env.HOME }}/standalone_parameters.yaml"
+    tags:
+     - filecreate
+     - parameters
 
   - name: Install the tripleo client
     yum:
@@ -63,7 +72,15 @@
     template:
       src: containers-prepare-parameters.yaml.j2
       dest: "{{ ansible_env.HOME }}/containers-prepare-parameters.yaml"
+    tags:
+     - filecreate
 
+  - name: Create StandaloneSriov Role
+    shell: |
+      cp /usr/share/openstack-tripleo-heat-templates/roles/Standalone.yaml {{ ansible_env.HOME }}/Standalone.yaml
+      echo "    - OS::TripleO::Services::NeutronSriovAgent" >> $HOME/Standalone.yaml
+    tags:
+      - debug
   # NOTE(mdbooth): The deploy step consistently fails to return. It fails in a
   # manner consistent with a hung SSH connection. The following dance is an
   # effort to never have a very long-running ansible task which might hang.
@@ -73,6 +90,8 @@
       # Create this in /usr/local/bin because we execute it with systemd-run,
       # which requires an executable SELinux label
       tripleo_deploy_path: "/usr/local/bin/tripleo-deploy.sh"
+    tags:
+      - debug
 
   - name: Create the deploy script
     template:
@@ -85,6 +104,8 @@
       stack_home: "{{ ansible_env.HOME }}"
     become: true
     become_user: root
+    tags:
+      - debug
 
   - name: Truncate the log file
     copy:
