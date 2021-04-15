@@ -17,6 +17,8 @@
     template:
       src: dev-install_net_config.yaml.j2
       dest: "{{ ansible_env.HOME }}/dev-install_net_config.yaml"
+    tags:
+     - filecreate
 
   - name: Read dev-install_net_config.yaml
     slurp:
@@ -31,6 +33,9 @@
     template:
       src: standalone_parameters.yaml.j2
       dest: "{{ ansible_env.HOME }}/standalone_parameters.yaml"
+    tags:
+     - filecreate
+     - parameters
 
   - name: Install the tripleo client
     yum:
@@ -63,6 +68,8 @@
     template:
       src: containers-prepare-parameters.yaml.j2
       dest: "{{ ansible_env.HOME }}/containers-prepare-parameters.yaml"
+    tags:
+     - filecreate
 
   # NOTE(mdbooth): The deploy step consistently fails to return. It fails in a
   # manner consistent with a hung SSH connection. The following dance is an
