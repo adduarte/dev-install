@@ -17,6 +17,8 @@ parameter_defaults:
   NeutronDnsDomain: {{ clouddomain }}
   NeutronBridgeMappings: {{ neutron_bridge_mappings }}
   NeutronFlatNetworks: {{ neutron_flat_networks }}
+  NeutronNetworkType: 'flat,vlan'
+  NeutronNetworkVLANRanges: 'sriov:100:199'
   StandaloneEnableRoutedNetworks: false
   StandaloneHomeDir: "{{ ansible_env.HOME }}"
   InterfaceLocalMtu: 1500
@@ -46,3 +48,22 @@ parameter_defaults:
   NovaComputeCpuDedicatedSet: '18-19,38-39'
   NovaReservedHostMemory: 4096
   NeutronEnableDVR: false
+#  NeutronMechanismDrivers: ['sriovnicswitch','openvswitch']
+#  NeutronPluginExtensions: "qos,port_security"
+#  NovaSchedulerDefaultFilters: ['AvailabilityZoneFilter','ComputeFilter','ComputeCapabilitiesFilter','ImagePropertiesFilter','ServerGroupAntiAffinityFilter','ServerGroupAffinityFilter','PciPassthroughFilter']
+#  NovaSchedulerAvailableFilters: ["nova.scheduler.filters.all_filters","nova.scheduler.filters.pci_passthrough_filter.PciPassthroughFilter"]
+#
+#  #############################
+#  #  Scheduler configuration  #
+#  #############################
+#  NovaSchedulerDefaultFilters:
+#    - "RetryFilter"
+#    - "AvailabilityZoneFilter"
+#    - "ComputeFilter"
+#    - "ComputeCapabilitiesFilter"
+#    - "ImagePropertiesFilter"
+#    - "ServerGroupAntiAffinityFilter"
+#    - "ServerGroupAffinityFilter"
+#    - "PciPassthroughFilter"
+#    - "NUMATopologyFilter"
+#    - "AggregateInstanceExtraSpecsFilter"

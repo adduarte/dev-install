@@ -77,8 +77,8 @@
 
   - name: Create StandaloneSriov Role
     shell: |
-      cp /usr/share/openstack-tripleo-heat-templates/roles/Standalone.yaml {{ ansible_env.HOME }}/StandaloneSriov.yaml
-      echo "    - OS::TripleO::Services::NeutronSriovAgent" >> $HOME/StandaloneSriov.yaml
+      cp /usr/share/openstack-tripleo-heat-templates/roles/Standalone.yaml {{ ansible_env.HOME }}/Standalone.yaml
+      echo "    - OS::TripleO::Services::NeutronSriovAgent" >> $HOME/Standalone.yaml
     tags:
       - debug
   # NOTE(mdbooth): The deploy step consistently fails to return. It fails in a
