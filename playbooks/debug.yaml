@@ -1,0 +1,39 @@
+---
+- hosts: standalone
+  become: true
+  become_user: stack
+  gather_facts: false
+  vars_files: vars/defaults.yaml
+  roles:
+  - network_info
+
+  tasks:
+
+  - name: Get minimum ansible facts
+    setup:
+      gather_subset: min
+
+  - name: Create dev-install_net_config.yaml
+    template:
+      src: dev-install_net_config.yaml.j2
+      dest: "{{ ansible_env.HOME }}/dev-install_net_config.yaml"
+    tags:
+     - filecreate
+
+  - name: Read dev-install_net_config.yaml
+    slurp:
+      src: "{{ ansible_env.HOME }}/dev-install_net_config.yaml"
+    register: net_config
+  
+  - name: Create net_config_json fact
+    set_fact:
+      net_config_json: "{{ net_config['content'] | b64decode | from_yaml }}"
+
+  - name: Create standalone_parameters.yaml
+    template:
+      src: standalone_parameters.yaml.j2
+      dest: "{{ ansible_env.HOME }}/standalone_parameters.yaml"
+    tags:
+     - filecreate
+     - parameters
+
