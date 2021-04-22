@@ -38,15 +38,16 @@ parameter_defaults:
 
   NeutronPhysicalDevMappings: "{{ neutron_dev_physical_mappings }}"
 #
-  IsolCpusList: "18-19,38-39"
+  #IsolCpusList: "10-19,10-39"
+  #NovaComputeCpuDedicatedSet: [10-19,10-39]
+  NovaReservedHostMemory: 4096
+
 #  #KernelArgs: "default_hugepagesz=1GB hugepagesz=1G hugepages=32 iommu=pt intel_iommu=on isolcpus=1-19,21-39"
 #  TunedProfileName: "cpu-partitioning"
   NovaPCIPassthrough:
     - address: "0000:04:00.1"
       trusted: "true"
       physical_network: "sriov"
-  NovaComputeCpuDedicatedSet: '18-19,38-39'
-  NovaReservedHostMemory: 4096
   NeutronEnableDVR: false
 #  NeutronMechanismDrivers: ['sriovnicswitch','openvswitch']
 #  NeutronPluginExtensions: "qos,port_security"
